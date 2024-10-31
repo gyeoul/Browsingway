@@ -38,7 +38,13 @@ public class DependencyManager : IDisposable
 	private const short _depComplete = -2;
 	private const short _depFailed = -3;
 
-	private static readonly Dependency[] _dependencies = { new("https://github.com/Styr1x/Browsingway/releases/download/cef-binaries/cefsharp-{VERSION}.zip", "cef", "122.1.12+g6e69d20+chromium-122.0.6261.112", "B2CE156C97CEF12EB6B7235B962CEE9EEBD71E91BC9343C4EC94073137734221") };
+	private static readonly Dependency[] _dependencies =
+	{
+		new("https://github.com/Styr1x/Browsingway/releases/download/cef-binaries/cefsharp-{VERSION}.zip", "cef",
+			"126.2.7+g300bb05+chromium-126.0.6478.115",
+			"4CEEBB8248EE1DB5660BFAEC2F55C24513A573806F043CD6257BD59B4C2CC09A")
+	};
+
 	private readonly string _debugCheckDir;
 
 	private readonly string _dependencyDir;
@@ -161,7 +167,8 @@ public class DependencyManager : IDisposable
 		// Make sure the checksum matches
 		if (downloadedChecksum != dependency.Checksum)
 		{
-			Services.PluginLog.Error($"Mismatched checksum for {filePath}: Got {downloadedChecksum} but expected {dependency.Checksum}");
+			Services.PluginLog.Error(
+				$"Mismatched checksum for {filePath}: Got {downloadedChecksum} but expected {dependency.Checksum}");
 			_installProgress.AddOrUpdate(dependency.Directory, _depFailed, (key, oldValue) => _depFailed);
 			File.Delete(filePath);
 			return;
